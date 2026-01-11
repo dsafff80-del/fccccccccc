@@ -1,0 +1,218 @@
+body {
+    background-color: #050505;
+    color: #444;
+    font-family: 'Courier New', monospace;
+    overflow-x: hidden;
+    margin: 0;
+}
+
+/* Glitch Efekti */
+.glitch {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ff0000;
+    position: relative;
+    text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff;
+    animation: glitch 1s infinite;
+}
+
+@keyframes glitch {
+    0% { transform: translate(0) }
+    20% { transform: translate(-2px, 2px) }
+    40% { transform: translate(-2px, -2px) }
+    60% { transform: translate(2px, 2px) }
+    80% { transform: translate(2px, -2px) }
+    100% { transform: translate(0) }
+}
+
+/* Node (Düğüm) Yapısı */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    padding: 100px 20px;
+}
+
+.node {
+    width: 300px;
+    transition: all 0.5s ease;
+    filter: grayscale(100%) blur(1px);
+    pointer-events: none; /* Kilitli varsayılan */
+    border: 1px solid #1a1a1a;
+    padding: 10px;
+}
+
+.node.active {
+    filter: none;
+    pointer-events: auto;
+    border-color: #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.1);
+}
+
+.video-container {
+    position: relative;
+    cursor: pointer;
+}
+
+video {
+    width: 100%;
+    opacity: 0.6;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 10px;
+    background: rgba(255, 0, 0, 0.8);
+    color: #000;
+    padding: 2px 5px;
+}
+
+/* Kilit ve Metin */
+.status-bar {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.lock-icon {
+    font-size: 12px;
+    color: #555;
+    letter-spacing: 2px;
+}
+
+.text-content {
+    font-size: 11px;
+    color: #ccc;
+    text-align: left;
+    margin-top: 10px;
+    border-left: 1px solid #ff0000;
+    padding-left: 10px;
+    animation: flicker 0.1s infinite;
+}
+
+.hidden { display: none; }
+
+@keyframes flicker {
+    0% { opacity: 0.9; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+/* Rastgele Dijital Bozulmalar (Artifacts) */
+.artifacts {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(0deg, rgba(255,0,0,0.03) 0px, transparent 1px);
+    pointer-events: none;
+    z-index: 100;
+}
+/* ... Önceki stillere ek olarak ... */
+
+.node {
+    width: 300px;
+    transition: all 0.6s cubic-bezier(0.85, 0, 0.15, 1); /* Sert ve teknolojik geçiş */
+    filter: grayscale(100%) brightness(0.5);
+    pointer-events: none;
+    border: 1px solid #222;
+    padding: 10px;
+    background: #000;
+    z-index: 1;
+}
+
+.node.active {
+    filter: none;
+    pointer-events: auto;
+    border-color: #444;
+}
+
+/* Video Büyüme Efekti */
+.node.expanded {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5);
+    width: 60vw;
+    z-index: 1000;
+    border-color: #ff0000;
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.3);
+}
+
+video {
+    width: 100%;
+    cursor: pointer;
+    transition: opacity 0.5s;
+}
+
+/* Metin Düzenlemesi: Yanlamasına gitmez, alt satıra geçer */
+.text-content {
+    font-size: 11px;
+    color: #cecece;
+    text-align: left;
+    margin-top: 10px;
+    border-left: 1px solid #ff0000;
+    padding-left: 10px;
+    word-wrap: break-word; /* Uzun Base64 metnini kırar */
+    overflow-wrap: break-word;
+    white-space: normal; /* Yan yana gitmesini engeller */
+    max-width: 100%; /* Kutuyu aşmaz */
+}
+
+/* Sayfa karartma (Video büyüdüğünde) */
+.overlay-darken {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    z-index: 999;
+}
+/* Kutuların boyut hesaplamasını sabitleyelim */
+* {
+    box-sizing: border-box;
+}
+
+.node {
+    width: 300px;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    filter: grayscale(100%) brightness(0.4);
+    pointer-events: none;
+    border: 1px solid #1a1a1a;
+    padding: 10px;
+    background: #000;
+    position: relative;
+}
+
+/* Büyüdüğünde ekrana sığması için güncellendi */
+.node.expanded {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* scale(1.5) yerine daha güvenli genişlik kullanıyoruz */
+    width: 80vw; /* Ekran genişliğinin %80'i */
+    max-width: 1000px; /* Çok geniş ekranlarda devasa olmasın */
+    max-height: 90vh; /* Ekran yüksekliğini asla geçmesin */
+    z-index: 1000;
+    border-color: #ff0000;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 1), 0 0 20px rgba(255, 0, 0, 0.4);
+    filter: none;
+}
+
+.node.expanded video {
+    max-height: 70vh; /* Videonun kendisi yüksekliği sınırlasın */
+    object-fit: contain; /* Oranı bozmadan sığdır */
+}
+
+/* Metin Alanı */
+.text-content {
+    font-size: 11px;
+    color: #888;
+    margin-top: 10px;
+    border-left: 1px solid #ff0000;
+    padding-left: 10px;
+    
+    /* Metin kırma kuralları */
+    word-break: break-all; /* Uzun base64'ü her yerden böler */
+    white-space: normal;
+    line-height: 1.4;
+}
